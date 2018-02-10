@@ -1,0 +1,66 @@
+General git information: https://git-scm.com/book/nl/v1/Branchen-in-Git-Wat-is-een-branch
+
+First: open the shell in the github application
+	repository --> open in powershell
+
+When starting, always pull the files from github.com/ to update 
+	git pull OR git pull origin master (if you just want the files from the master branch)
+
+Push file from local pc:
+	Assuming the file with code is the branch folder on your local pc:
+	
+	git add [file].[type] ,SO --> git add Testfile.txt
+	git commit -m "type message ", SO git commit -m "a change in file x"(document change, -m is to add message)
+	git push -u [location name] [branch name], SO --> git push -u origin master
+
+Push folder from local pc:
+	note: git does NOT store empty folders, so make sure to add a file to a folder before pushing it!
+	git add [folder_name]
+	git commit -m 'type message'
+	git push  
+
+Remove file from github:
+	git rm (--cached) [file_name], SO git rm Testfile.txt (cached is not necessary)
+	git commit -m 'message '
+	git push
+
+General help:
+	Git help
+	
+View Directory:
+	ls
+	
+When creating a complete new repo:
+	git remote add origin https://github.com/username/RepositoryName
+	
+View status (to view whether everything is up to date):
+	git status
+
+To view recent activity:
+	git log
+	
+Switch branch
+	git checkout [branch_name_to_switch_to]
+	
+create new branch	
+	git branch [branch_name]
+	OR git checkout -b [branch_name]
+
+To view a particular commit (if you made some changes to code and want to open 
+some previous version):
+
+	git checkout [commit_stamp] , like--> git checkout edc5d2ad6a4c06428240a9efc256decb82572ac0
+
+OR create temporary branch to store commit in:
+
+	git checkout -b [test_branch] [commit_stamp]
+	git checkout master
+	git branch -d [test_branch]
+
+Merge temp branch with master branch (to retrieve an old version of code):
+	git checkout -B master [test_branch]
+	OR
+	git branch -f master [test_branch]
+	git checkout master
+
+	(git push origin master)
