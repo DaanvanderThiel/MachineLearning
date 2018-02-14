@@ -46,6 +46,9 @@ create new branch
 	git branch [branch_name]
 	OR git checkout -b [branch_name]
 
+Push new branch to repository
+	git push -u origin <branch_name>
+
 To view a particular commit (if you made some changes to code and want to open 
 some previous version):
 
