@@ -1,4 +1,8 @@
-General git information: https://git-scm.com/book/nl/v1/Branchen-in-Git-Wat-is-een-branch
+General git information about branches: https://git-scm.com/book/nl/v1/Branchen-in-Git-Wat-is-een-branch
+Basic git commands: https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html
+git documentation (check wat -d,-m,-A means etc for commands): https://git-scm.com/doc 
+
+
 
 First: open the shell in the github application
 	repository --> open in powershell
@@ -12,6 +16,14 @@ Push file from local pc:
 	git add [file].[type] ,SO --> git add Testfile.txt
 	git commit -m "type message ", SO git commit -m "a change in file x"(document change, -m is to add message)
 	git push -u [location name] [branch name], SO --> git push -u origin master
+
+
+Push modified file:
+	git commit -a
+	git push
+	or
+	git commit -am "commit message"
+	git push
 
 Push folder from local pc:
 	note: git does NOT store empty folders, so make sure to add a file to a folder before pushing it!
