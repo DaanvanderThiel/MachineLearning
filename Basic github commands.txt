@@ -46,6 +46,11 @@ create new branch
 	git branch [branch_name]
 	OR git checkout -b [branch_name]
 
+delete branch
+	git branch -d [test_branch]
+	git fetch -p
+	git push origin --delete [test_branch]
+
 Push new branch to repository
 	git push -u origin <branch_name>
 
