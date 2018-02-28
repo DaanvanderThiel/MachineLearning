@@ -5,3 +5,5 @@ https://www.pokemon.com/us/play-pokemon/worlds/2016/pokemon-world-championships-
 https://www.kaggle.com/jonathanbouchet/pokemon-battles/notebook
 
 http://game.engineering.nyu.edu/wp-content/uploads/2017/02/CIG_2017_paper_87-1.pdf
+
+.
