@@ -29,7 +29,8 @@ combats['Loser'] = [combats['First_pokemon'].iloc[i]
 #Add the stats of the loser behind his ID
 combats['loser_stats'] = [pokemon.loc[i] for i in combats['Loser']]
 
-#Comparing attack winner/loser
+
+def comparing(str )
 attack_winner = [combats['winner_stats'].iloc[i].Attack for i in range(len(combats))]
 attack_loser = [combats['loser_stats'].iloc[i].Attack for i in range(len(combats))]
 
