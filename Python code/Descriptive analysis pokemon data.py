@@ -23,7 +23,9 @@ def getProcessedCombatData(combats,pokemon):
     combats = pd.merge(combats,pokemon, right_index=True,left_on='Winner',how='inner') 
     
     #Add the stats of the loser behind his ID in seperate columns
-    combats = pd.merge(combats,pokemon, right_index=True,left_on='Loser',how='inner') 
+    combats = pd.merge(combats,pokemon, right_index=True,left_on='Loser',how='inner',suffixes=('_w','_l')) 
+    
+    combats=combats.sort_index()
     
     return combats;
 
@@ -31,43 +33,43 @@ def getProcessedCombatData(combats,pokemon):
 #### function to create plots of the stats in the dataset
 
 def getHistOfStats():
-    plt.hist(combats['HP_x'], color = 'green', alpha = 0.75, label = 'winner')
-    plt.hist(combats['HP_y'], color = 'red', alpha = 0.75, label = 'loser')
+    plt.hist(combats['HP_w'], color = 'green', alpha = 0.75, label = 'winner')
+    plt.hist(combats['HP_l'], color = 'red', alpha = 0.75, label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('HP value')
     plt.ylabel('Frequency')
     plt.show()
     
-    plt.hist(combats['Attack_x'], color = 'green', alpha = 0.75, label = 'winner')
-    plt.hist(combats['Attack_y'], color = 'red', alpha = 0.75, label = 'loser')
+    plt.hist(combats['Attack_w'], color = 'green', alpha = 0.75, label = 'winner')
+    plt.hist(combats['Attack_l'], color = 'red', alpha = 0.75, label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Attack value')
     plt.ylabel('Frequency')
     plt.show()
 
-    plt.hist(combats['Defense_x'], color = 'green', alpha = 0.75, label = 'winner')
-    plt.hist(combats['Defense_y'], color = 'red', alpha = 0.75, label = 'loser')
+    plt.hist(combats['Defense_w'], color = 'green', alpha = 0.75, label = 'winner')
+    plt.hist(combats['Defense_l'], color = 'red', alpha = 0.75, label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Defense value')
     plt.ylabel('Frequency')
     plt.show()
     
-    plt.hist(combats['Sp. Atk_x'], color = 'green', alpha = 0.75, label = 'winner')
-    plt.hist(combats['Sp. Atk_y'], color = 'red', alpha = 0.75, label = 'loser')
+    plt.hist(combats['Sp. Atk_w'], color = 'green', alpha = 0.75, label = 'winner')
+    plt.hist(combats['Sp. Atk_l'], color = 'red', alpha = 0.75, label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Sp. Atk value')
     plt.ylabel('Frequency')
     plt.show()
     
-    plt.hist(combats['Sp. Def_x'], color = 'green', alpha = 0.75, label = 'winner')
-    plt.hist(combats['Sp. Def_y'], color = 'red', alpha = 0.75, label = 'loser')
+    plt.hist(combats['Sp. Def_w'], color = 'green', alpha = 0.75, label = 'winner')
+    plt.hist(combats['Sp. Def_l'], color = 'red', alpha = 0.75, label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Sp. Def value')
     plt.ylabel('Frequency')
     plt.show()
     
-    plt.hist(combats['Speed_x'], color = 'green', alpha = 0.75, label = 'winner')
-    plt.hist(combats['Speed_y'], color = 'red', alpha = 0.75, label = 'loser')
+    plt.hist(combats['Speed_w'], color = 'green', alpha = 0.75, label = 'winner')
+    plt.hist(combats['Speed_l'], color = 'red', alpha = 0.75, label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Speed value')
     plt.ylabel('Frequency')
@@ -77,43 +79,43 @@ def getHistOfStats():
 #%%
     
 def getDensityplotOfStats():
-    combats['HP_x'].plot(kind='density',color = 'green',label = 'winner')
-    combats['HP_y'].plot(kind='density',color = 'red',label = 'loser')
+    combats['HP_w'].plot(kind='density',color = 'green',label = 'winner')
+    combats['HP_l'].plot(kind='density',color = 'red',label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('HP value')
     plt.ylabel('Frequency')
     plt.show()
     
-    combats['Attack_x'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Attack_y'].plot(kind='density',color = 'red',label = 'loser')
+    combats['Attack_w'].plot(kind='density',color = 'green',label = 'winner')
+    combats['Attack_l'].plot(kind='density',color = 'red',label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Attack value')
     plt.ylabel('Frequency')
     plt.show()
     
-    combats['Defense_x'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Defense_y'].plot(kind='density',color = 'red',label = 'loser')
+    combats['Defense_w'].plot(kind='density',color = 'green',label = 'winner')
+    combats['Defense_l'].plot(kind='density',color = 'red',label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Defense value')
     plt.ylabel('Frequency')
     plt.show()
     
-    combats['Sp. Atk_x'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Sp. Atk_y'].plot(kind='density',color = 'red',label = 'loser')
+    combats['Sp. Atk_w'].plot(kind='density',color = 'green',label = 'winner')
+    combats['Sp. Atk_l'].plot(kind='density',color = 'red',label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Sp.Atk value')
     plt.ylabel('Frequency')
     plt.show()
     
-    combats['Sp. Def_x'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Sp. Def_y'].plot(kind='density',color = 'red',label = 'loser')
+    combats['Sp. Def_w'].plot(kind='density',color = 'green',label = 'winner')
+    combats['Sp. Def_l'].plot(kind='density',color = 'red',label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Defense value')
     plt.ylabel('Frequency')
     plt.show()
     
-    combats['Speed_x'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Speed_y'].plot(kind='density',color = 'red',label = 'loser')
+    combats['Speed_w'].plot(kind='density',color = 'green',label = 'winner')
+    combats['Speed_l'].plot(kind='density',color = 'red',label = 'loser')
     plt.legend(loc = 'upper right')
     plt.xlabel('Speed value')
     plt.ylabel('Frequency')
@@ -122,29 +124,57 @@ def getDensityplotOfStats():
 #%%
     
 def getCorrelationplotOfStats():
+    #Corr plot of pokemon dataset
     stats = pokemon.iloc[:,4:10]
 
     corr = stats.corr(method='pearson')
+    
+    print(corr)
     
     plt.matshow(corr,cmap=cm.YlOrRd)
     plt.xticks(range(len(stats.columns)), stats.columns,rotation='vertical')
     plt.yticks(range(len(stats.columns)), stats.columns)
     plt.colorbar()
+    plt.suptitle("Correlation plot of all pokemons in pokemon database")
     plt.show()
     
-    x1 = pd.DataFrame([*combats['HP_x'] , *combats['HP_y']], columns= ['x1'])
-    x2 = pd.DataFrame([*combats['Attack_x'] , *combats['Attack_y']], columns= ['x2'])
-    x3 = pd.DataFrame([*combats['Defense_x'] , *combats['Defense_y']],columns= ['x3'])
-    x4 = pd.DataFrame([*combats['Sp. Atk_x'] , *combats['Sp. Atk_y']],columns= ['x4'])
-    x5 = pd.DataFrame([*combats['Sp. Def_x'] , *combats['Sp. Def_y']],columns= ['x5'])
-    x6 = pd.DataFrame([*combats['Speed_x'] , *combats['Speed_y']],columns= ['x6'])
+    #Corr plot of combat dataset (Merge both winners and losers first!)
+    HP = pd.DataFrame([*combats['HP_w'] , *combats['HP_l']], columns= ['HP'])
+    Attack = pd.DataFrame([*combats['Attack_w'] , *combats['Attack_l']], columns= ['Attack'])
+    Defense = pd.DataFrame([*combats['Defense_w'] , *combats['Defense_l']],columns= ['Defense'])
+    SpAtk = pd.DataFrame([*combats['Sp. Atk_w'] , *combats['Sp. Atk_l']],columns= ['Sp. Atk'])
+    SpDef = pd.DataFrame([*combats['Sp. Def_w'] , *combats['Sp. Def_l']],columns= ['Sp. Def'])
+    Speed = pd.DataFrame([*combats['Speed_w'] , *combats['Speed_l']],columns= ['Speed'])
    
-    z=pd.merge(x1,x2)
+    cStats=HP.join(Attack.join(Defense.join(SpAtk.join(SpDef.join(Speed)))))
     
+    corr2 = cStats.corr(method='pearson')
     
-    corr2 = y.corr(method='pearson')
+    print(corr2)
+    
+    plt.matshow(corr2,cmap=cm.YlOrRd)
+    plt.xticks(range(len(stats.columns)), stats.columns,rotation='vertical')
+    plt.yticks(range(len(stats.columns)), stats.columns)
+    plt.colorbar()
+    plt.suptitle("Correlation plot of all pokemons in combat database")
+    plt.show()
     
 #%%
+  
+def legendaryAnalysis():
+    #Not finished yet!
+    print(combats.groupby(['Legendary_w'])['Winner'].count())
+    print(combats.groupby(['Legendary_l'])['Loser'].count())
+    
+    objects = ('Legendary','Non legendary' )
+    y_pos = np.arange(len(objects))
+    
+    plt.bar(y_pos,combats.groupby(['Legendary_w'])['Winner'].count())
+    plt.xticks(y_pos, objects)
+    plt.ylabel('Amount')
+    plt.title('Wins Legendary')
+
+#%%    
 
 ###### Paste the stats of the pokemons in the combats file
 
@@ -156,8 +186,8 @@ import matplotlib.cm as cm
 import tensorflow as tf
 
 #Load data
-combats = pd.read_csv('C:/Users/Jesse/Documents/Github/MachineLearning/Data/Original data/combats.csv',delimiter =',')
-pokemon = pd.read_csv('C:/Users/Jesse/Documents/Github/MachineLearning/Data/Original data/pokemon.csv',delimiter =',')
+combats = pd.read_csv('./Documents/Github/MachineLearning/Data/Original data/combats.csv',delimiter =',')
+pokemon = pd.read_csv('./Documents/Github/MachineLearning/Data/Original data/pokemon.csv',delimiter =',')
     
 #Process (combat) data 
 combats = getProcessedCombatData(combats,pokemon)
