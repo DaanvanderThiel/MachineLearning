@@ -13,11 +13,11 @@ import tensorflow as tf
 import os
 
 # (!!!) Set your own directory (!!!)
-os.chdir('/Users/dorienVU/Documents/GitHub/MachineLearning')
+os.chdir('/Users/dorienVU/Documents/GitHub/MachineLearning/Python code')
 
 # Load files
-combats = pd.read_csv('Data/Original data/combats.csv')
-pokemon = pd.read_csv('Data/Original data/pokemon.csv')
+combats = pd.read_csv('../Data/Original data/combats.csv')
+pokemon = pd.read_csv('../Data/Original data/pokemon.csv')
 
 #Set the index of the pokemon table equal to the ID of the pokemon
 pokemon = pokemon.set_index('#')
@@ -44,7 +44,7 @@ for i in combats.columns[14:]:
     combats[i] = [f(i.rsplit('_')[0], j) for j in combats['Second_pokemon']]
     
 # Add correct multipliers
-multipliers = pd.read_csv('Data/Original data/type-chart.csv')
+multipliers = pd.read_csv('../Data/Original data/type-chart.csv')
 
 def get_types(pokemon_id):
     return pd.Series(pokemon[['Type 1', 'Type 2']].loc[pokemon_id]).dropna()
@@ -84,7 +84,7 @@ combats['Multiplier_2'] = np.nan
 combats.loc[:,['Multiplier_1','Multiplier_2']] = list(combats.apply(lambda x: find_multipliers(x['First_pokemon'], x['Second_pokemon']), axis=1))  
   
 # safe file
-combats.to_csv('combined_data.csv',index=False)
+combats.to_csv('../Data/Adjusted data/combined_data.csv',index=False)
 
 # scaling data
 combats_scaled = combats.copy()
@@ -107,8 +107,8 @@ for i in combats_scaled.columns:
     if '1' in i:
         paired_columns[i.rsplit('_')[0]] = list(filter(lambda x: i.rsplit('_')[0] in x, combats_scaled.columns))
         
-result_df = pd.DataFrame()       
+result_df = combats_scaled[['First_pokemon', 'Second_pokemon', 'Winner']].copy()      
 for key, value in paired_columns.items():
     result_df[key] = scale(combats_scaled[value[0]], combats_scaled[value[1]])
  
-result_df.to_csv('combats_scaled_data.csv', index=False)
+result_df.to_csv('../Data/Adjusted data/combats_scaled_data.csv', index=False)
