@@ -173,7 +173,7 @@ def crossTableWL(columnName1,columnName2):
     Lose =  combats.groupby([columnName2]).size().rename("Loss")
 
     result = Win.to_frame().join(Lose)
-    
+   
     return result;
 #%%
   
@@ -231,7 +231,22 @@ getCorrelationplotOfStats()
 #Analyze legendary type
 legendaryAnalysis()
 
-#Get idea of effect of Type and Generation on winning
-crossTableWL('Type 1_w','Type 1_l')
-crossTableWL('Generation_w','Generation_l')
+Legendary= crossTableWL('Type 1_w','Type 1_l')
 
+#Get idea of effect of Type and Generation on winning
+Type= crossTableWL('Type 1_w','Type 1_l')
+
+Generation = crossTableWL('Generation_w','Generation_l')
+
+#Get percentages of cross tables (maybe put it in a function if usefull)
+x1=Legendary['Win']/(Legendary['Loss']+Legendary['Win']).rename('Win')
+x2=Type['Loss']/(Legendary['Loss']+Legendary['Win']).rename('Loss')
+LegendaryPerc=pd.concat([x1,x2],axis=1)
+
+x1=Type['Win']/(Type['Loss']+Type['Win']).rename('Win')
+x2=Type['Loss']/(Type['Loss']+Type['Win']).rename('Loss')
+TypePerc=pd.concat([x1,x2],axis=1)
+
+x1=Generation['Win']/(Generation['Loss']+Generation['Win']).rename('Win')
+x2=Generation['Loss']/(Generation['Loss']+Generation['Win']).rename('Loss')
+GenPerc=pd.concat([x1,x2],axis=1)
