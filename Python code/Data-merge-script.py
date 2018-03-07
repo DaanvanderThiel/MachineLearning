@@ -91,9 +91,12 @@ combats_scaled = combats.copy()
 
 def scale(column1, column2):
     if 'Legendary' in column1.name:
-        x = column1 / column1 + column2
+        x = column1 / (column1 + column2)
         return x.fillna(.5)
-    return column1 / (column1 + column2)
+    elif 'Multiplier' in column1.name:
+        return ((column1 - column2) + 4) / 8.
+    else:
+        return column1 / (column1 + column2)
 
 # delete types
 del combats_scaled['Type 1_1'], combats_scaled['Type 2_1'], combats_scaled['Type 1_2'], combats_scaled['Type 2_2']
@@ -110,5 +113,8 @@ for i in combats_scaled.columns:
 result_df = combats_scaled[['First_pokemon', 'Second_pokemon', 'Winner']].copy()      
 for key, value in paired_columns.items():
     result_df[key] = scale(combats_scaled[value[0]], combats_scaled[value[1]])
+
+# add decision variable 
+result_df["WinnerBinary"] = [1 if i == j else 0 for i,j in zip(result_df.Winner,result_df.First_pokemon)]
  
 result_df.to_csv('../Data/Adjusted data/combats_scaled_data.csv', index=False)
