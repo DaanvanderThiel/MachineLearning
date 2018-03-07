@@ -6,4 +6,15 @@ https://www.kaggle.com/jonathanbouchet/pokemon-battles/notebook
 
 http://game.engineering.nyu.edu/wp-content/uploads/2017/02/CIG_2017_paper_87-1.pdf
 
-.
+A Game Player Expertise Level Classification System Using Electroencephalography (EEG)
+
+Sports and digital prediction (classification problems)
+
+Cricket:
+https://arxiv.org/ftp/arxiv/papers/1511/1511.05837.pdf 
+
+Basketball:
+https://homepages.cae.wisc.edu/~ece539/fall13/project/AmorimTorres_rpt.pdf
+
+Football (multiclass; 3 outcome variables :( )
+http://publications.lib.chalmers.se/records/fulltext/250411/250411.pdf
