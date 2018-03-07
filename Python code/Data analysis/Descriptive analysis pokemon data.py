@@ -164,7 +164,17 @@ def getCorrelationplotOfStats():
     plt.colorbar()
     plt.suptitle("Correlation plot of all pokemons in combat database")
     plt.show()
+        
+#%%
     
+def crossTableWL(columnName1,columnName2):
+    #outputs a dataframe
+    Win = combats.groupby([columnName1]).size().rename("Win")
+    Lose =  combats.groupby([columnName2]).size().rename("Loss")
+
+    result = Win.to_frame().join(Lose)
+    
+    return result;
 #%%
   
 def legendaryAnalysis():
@@ -188,7 +198,8 @@ def legendaryAnalysis():
     plt.ylabel('Percentage (%)')
     plt.title('Proportion Legendary/Non-Legendary in dataset')
     plt.show()
-
+    
+    crossTableWL('Legendary_w','Legendary_l')
 
 #%%    
 
@@ -202,8 +213,8 @@ import matplotlib.cm as cm
 import tensorflow as tf
 
 #Load data
-combats = pd.read_csv('C:/Users/Elitebook/Desktop/Machine Learning/Data/Original data/combats.csv',delimiter =',')
-pokemon = pd.read_csv('C:/Users/Elitebook/Desktop/Machine Learning/Data/Original data/pokemon.csv',delimiter =',')
+combats = pd.read_csv('C:/Users/Jesse/Documents/Github/MachineLearning/Data/Original data/combats.csv',delimiter =',')
+pokemon = pd.read_csv('C:/Users/Jesse/Documents/Github/MachineLearning/Data/Original data/pokemon.csv',delimiter =',')
     
 #Process (combat) data 
 combats = getProcessedCombatData(combats,pokemon)
@@ -217,7 +228,10 @@ getHistOfStats()
 #Get correlationplot of all 6 stats
 getCorrelationplotOfStats()
 
+#Analyze legendary type
 legendaryAnalysis()
 
-
+#Get idea of effect of Type and Generation on winning
+crossTableWL('Type 1_w','Type 1_l')
+crossTableWL('Generation_w','Generation_l')
 
