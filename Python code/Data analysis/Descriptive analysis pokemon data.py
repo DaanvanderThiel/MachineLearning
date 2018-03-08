@@ -78,55 +78,16 @@ def getHistOfStats():
 
 #%%
     
-def getDensityplotOfStats():
-    combats['HP_w'].plot(kind='density',color = 'green',label = 'winner')
-    combats['HP_l'].plot(kind='density',color = 'red',label = 'loser')
+def getDensityplotOfStats(columnName1,columnName2,columnName3):
+    combats[columnName1].plot(kind='density',color = 'green',label = 'winner')
+    combats[columnName2].plot(kind='density',color = 'red',label = 'loser')
     plt.legend(loc = 'upper right')
-    plt.xlabel('HP value')
-    plt.ylabel('Frequency')
-    plt.xlim([0,300])
+    plt.xlabel(columnName3 + ' value', fontweight="bold")
+    plt.ylabel('Density', fontweight="bold")
+    plt.xlim([0,max(combats[columnName1].max(), combats[columnName2].max())*1.25])
+    plt.title('Density plot ' + columnName3 + ' (winner vs loser)', fontweight="bold")
     plt.show()
-    
-    combats['Attack_w'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Attack_l'].plot(kind='density',color = 'red',label = 'loser')
-    plt.legend(loc = 'upper right')
-    plt.xlabel('Attack value')
-    plt.ylabel('Frequency')
-    plt.xlim([0,200])
-    plt.show()
-    
-    combats['Defense_w'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Defense_l'].plot(kind='density',color = 'red',label = 'loser')
-    plt.legend(loc = 'upper right')
-    plt.xlabel('Defense value')
-    plt.ylabel('Frequency')
-    plt.xlim([0,250])
-    plt.show()
-    
-    combats['Sp. Atk_w'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Sp. Atk_l'].plot(kind='density',color = 'red',label = 'loser')
-    plt.legend(loc = 'upper right')
-    plt.xlabel('Sp.Atk value')
-    plt.ylabel('Frequency')
-    plt.xlim([0,200])
-    plt.show()
-    
-    combats['Sp. Def_w'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Sp. Def_l'].plot(kind='density',color = 'red',label = 'loser')
-    plt.legend(loc = 'upper right')
-    plt.xlabel('Sp.Def value')
-    plt.ylabel('Frequency')
-    plt.xlim([0,250])
-    plt.show()
-    
-    combats['Speed_w'].plot(kind='density',color = 'green',label = 'winner')
-    combats['Speed_l'].plot(kind='density',color = 'red',label = 'loser')
-    plt.legend(loc = 'upper right')
-    plt.xlabel('Speed value')
-    plt.ylabel('Frequency')
-    plt.xlim([0,200]) 
-    plt.show()
-    
+ 
 #%%
     
 def getCorrelationplotOfStats():
@@ -232,7 +193,12 @@ pokemon = pd.read_csv('C:/Users/Elitebook/Desktop/Machine Learning/Data/Original
 combats = getProcessedCombatData(combats,pokemon)
 
 #Get densityplots of stats
-getDensityplotOfStats()
+getDensityplotOfStats('HP_w', 'HP_l', 'HP')
+getDensityplotOfStats('Attack_w', 'Attack_l', 'Attack')
+getDensityplotOfStats('Defense_w', 'Defense_l', 'Defense')
+getDensityplotOfStats('Sp. Atk_w', 'Sp. Atk_l', 'Sp.Atk')
+getDensityplotOfStats('Sp. Def_w', 'Sp. Def_l', 'Sp.Def')
+getDensityplotOfStats('Speed_w', 'Speed_l', 'Speed')
 
 #Get correlationplot of all 6 stats
 getCorrelationplotOfStats()
