@@ -167,16 +167,28 @@ def getCorrelationplotOfStats():
         
 #%%
     
-def crossTableWL(columnName1,columnName2):
+def crossTableWL(columnName1,columnName2,columnName3):
     #outputs a dataframe
+    
     Win = combats.groupby([columnName1]).size().rename("Win")
-    Lose =  combats.groupby([columnName2]).size().rename("Loss")
+    Loss = combats.groupby([columnName2]).size().rename("Loss")
+    
+    temp = Win.to_frame().join(Loss)
+    
+    x1 = round(Win / (Win + Loss)*100,2)
+    x2 = round(Loss / (Win + Loss)*100,2)
+    Perc=pd.concat([x1,x2],axis=1)
+    
+    result = pd.merge(temp,Perc, left_index = True, right_index = True)
+    result.columns = ['Win', 'Loss', 'Win %', 'Loss %']
+    
+    result.index.name = columnName3
 
-    result = Win.to_frame().join(Lose)
-   
+    print(result)
+    
     return result;
 #%%
-  
+''' 
 def legendaryAnalysis():
     #Not finished yet!
     print(combats.groupby(['Legendary_w'])['Winner'].count())
@@ -200,7 +212,7 @@ def legendaryAnalysis():
     plt.show()
     
     crossTableWL('Legendary_w','Legendary_l')
-
+'''
 #%%    
 
 ###### Paste the stats of the pokemons in the combats file
@@ -213,8 +225,8 @@ import matplotlib.cm as cm
 import tensorflow as tf
 
 #Load data
-combats = pd.read_csv('C:/Users/Jesse/Documents/Github/MachineLearning/Data/Original data/combats.csv',delimiter =',')
-pokemon = pd.read_csv('C:/Users/Jesse/Documents/Github/MachineLearning/Data/Original data/pokemon.csv',delimiter =',')
+combats = pd.read_csv('C:/Users/Elitebook/Desktop/Machine Learning/Data/Original data/combats.csv',delimiter =',')
+pokemon = pd.read_csv('C:/Users/Elitebook/Desktop/Machine Learning/Data/Original data/pokemon.csv',delimiter =',')
     
 #Process (combat) data 
 combats = getProcessedCombatData(combats,pokemon)
@@ -222,31 +234,15 @@ combats = getProcessedCombatData(combats,pokemon)
 #Get densityplots of stats
 getDensityplotOfStats()
 
-#Get histograms
-getHistOfStats()                        
-                            
 #Get correlationplot of all 6 stats
 getCorrelationplotOfStats()
 
-#Analyze legendary type
-legendaryAnalysis()
+#Crosstables of Type, Legendary and Generation
+Legendary = crossTableWL('Legendary_w','Legendary_l', 'Legendary')
+Type= crossTableWL('Type 1_w','Type 1_l', 'Type')
+Generation = crossTableWL('Generation_w','Generation_l', 'Generation')
 
-Legendary= crossTableWL('Type 1_w','Type 1_l')
 
-#Get idea of effect of Type and Generation on winning
-Type= crossTableWL('Type 1_w','Type 1_l')
-
-Generation = crossTableWL('Generation_w','Generation_l')
-
-#Get percentages of cross tables (maybe put it in a function if usefull)
-x1=Legendary['Win']/(Legendary['Loss']+Legendary['Win']).rename('Win')
-x2=Type['Loss']/(Legendary['Loss']+Legendary['Win']).rename('Loss')
-LegendaryPerc=pd.concat([x1,x2],axis=1)
-
-x1=Type['Win']/(Type['Loss']+Type['Win']).rename('Win')
-x2=Type['Loss']/(Type['Loss']+Type['Win']).rename('Loss')
-TypePerc=pd.concat([x1,x2],axis=1)
-
-x1=Generation['Win']/(Generation['Loss']+Generation['Win']).rename('Win')
-x2=Generation['Loss']/(Generation['Loss']+Generation['Win']).rename('Loss')
-GenPerc=pd.concat([x1,x2],axis=1)
+#legendaryAnalysis()
+#Get histograms
+#getHistOfStats()
