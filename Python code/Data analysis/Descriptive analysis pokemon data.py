@@ -208,6 +208,12 @@ Legendary = crossTableWL('Legendary_w','Legendary_l', 'Legendary')
 Type= crossTableWL('Type 1_w','Type 1_l', 'Type')
 Generation = crossTableWL('Generation_w','Generation_l', 'Generation')
 
+firstWin = combats[(combats.First_pokemon == combats.Winner)]['First_pokemon'].count()
+secondWin = combats[(combats.First_pokemon != combats.Winner)]['First_pokemon'].count()
+firstWinPercentage = round(firstWin / (firstWin + secondWin) * 100, 2)
+secondWinPercentage = round(secondWin / (firstWin + secondWin) * 100, 2) 
+
+
 
 #legendaryAnalysis()
 #Get histograms
