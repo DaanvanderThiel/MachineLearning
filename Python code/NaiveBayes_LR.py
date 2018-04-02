@@ -12,6 +12,7 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 from sklearn import naive_bayes, linear_model
 from sklearn.metrics import roc_curve, auc
 from sklearn.model_selection import StratifiedKFold
+from sklearn.feature_selection import SelectFromModel
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from scipy import interp
@@ -130,8 +131,24 @@ def grid_search_NB(X, y, n_features):
     plt.legend()
     plt.ylabel('True Positive Rate', fontsize=12)
     plt.xlabel('False Positive Rate', fontsize=12)
-     
     
+def grid_search_LR(X, y, C_range, penalty):
+    X_train, X_validate, y_train, y_validate = train_test_split(X.iloc[:,:12], y, train_size=4/7, random_state=42)
+    auc_val = dict()
+    for i in C_range:
+        for j in penalty:
+            model = linear_model.LogisticRegression(C=i, penalty=j)
+            sfm = SelectFromModel(model)
+            X_new = sfm.fit_transform(X=X_train, y=y_train)
+            
+            mask = sfm.get_support(indices=True)
+            
+            model.fit(X=X_new, y=y_train)
+            x = model.predict(X=X_validate.iloc[:,mask])
+            fpr, tpr, thresholds = roc_curve(y_validate, x)
+            auc_val['C_{}_penalty_{}'.format(i, j)] = auc(fpr, tpr)
+     
+    return auc_val
 #%%
 # Trying Naive bayes with 1 - 3 features
 grid_search_NB(X_train, y_train, 1)
@@ -141,7 +158,20 @@ grid_search_NB(X_train, y_train, 3)
 # No better model than model with 1 feature: 'Speed' so cross validation to ensure stability of model
 mean_fpr, mean_tpr, sd_auc = cross_validation(naive_bayes.GaussianNB, pd.DataFrame(X_train['Speed']), 
                                               y_train,folds=10, kwargs={})
+
 #%%    
+# Linear regression, grid search
+#AUCs = grid_search_LR(X_train, y_train, np.arange(1,100,1), ['l1','l2'])
+
+# all same AUCs, best model C=1, penalty = l2, features:
+LR = linear_model.LogisticRegression(C=1, penalty='l2')
+sfm = SelectFromModel(LR)
+sfm.fit(X=X_train, y=y_train)
+
+new_features = sfm.get_support(indices=True)
+
+
+#%%
 cross_validation(linear_model.LogisticRegression, X_train, y_train, 10, dict(C=0.01, penalty='l1'))
 #%%
 # do grid search on logistic regression, all data
@@ -172,10 +202,4 @@ roc_auc_LR = auc(false_positive_rate_LR, true_positive_rate_LR)
 LR = linear_model.LogisticRegression()
 LR.fit(X_train.loc[:,X_train.columns[3:]], y=y_train)
 #LR.score(X=X_validate.loc[:,X_validate.columns[3:]], y=y_validate)
-#%%
-# from correlation matrix see that Sp. Atk and Sp. Def have some correlation, so leave these features out
-without_special = list(filter(lambda x: x != 'Sp. Atk' and x != 'Sp. Def',X_train.columns))
-LR.fit(X=X_train.loc[:, without_special], y=y_train)
-LR.score(X=X_validate.loc[:,without_special], y=y_validate)
-# does not significantly worsen the accuracy of the model.
 
